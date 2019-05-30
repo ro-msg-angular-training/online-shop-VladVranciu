@@ -40,7 +40,7 @@ public class Product {
             @JsonIgnore
     List<Stock> stocks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", orphanRemoval = true,cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "product", orphanRemoval = true,cascade = CascadeType.ALL)
             @JsonIgnore
     List<OrderDetail> orderDetails = new ArrayList<>();
 

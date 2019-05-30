@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.exception.ProductNotFoundException;
+import ro.msg.learning.shop.model.DTO.ProductCategoryDTO;
 import ro.msg.learning.shop.model.DTO.ProductDTO;
+import ro.msg.learning.shop.model.DTO.SupplierDTO;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.ProductCategory;
 import ro.msg.learning.shop.model.Supplier;
@@ -45,6 +47,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> aux = productRepository.findById(id).map(
                 product1 -> {
                     product1=switchProduct.fromProductDTOtoProduct(product);
+                    //product1.setId(id);
                     return productRepository.save(product1);
 
                 });
@@ -72,6 +75,23 @@ public class ProductServiceImpl implements ProductService {
         }
         log.info("Product list is being returned");
         return productDTOS;
+    }
+
+    @Override
+    public List<ProductCategoryDTO> getCategories() {
+        List<ProductCategory> productCategories=productCategoryRepository.findAll();
+        List<ProductCategoryDTO> productCategoryDTOS=new ArrayList<>();
+        productCategories.forEach(p->productCategoryDTOS.add(switchProduct.fromProductCategoryToProductCategoryDTO(p)));
+        return productCategoryDTOS;
+    }
+
+    @Override
+    public List<SupplierDTO> getSuppliers() {
+        List<Supplier> suppliers=supplierRepository.findAll();
+        List<SupplierDTO> supplierDTOS=new ArrayList<>();
+        suppliers.forEach(s->supplierDTOS.add(switchProduct.fromSupplierToSupplierDTO(s)));
+        log.info("Supplier list is being returned");
+        return supplierDTOS;
     }
 
 }

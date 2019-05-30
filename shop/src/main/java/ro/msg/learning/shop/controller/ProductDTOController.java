@@ -19,6 +19,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class ProductDTOController {
 
     private ProductService productService;
+
     @Autowired
     private final ProductRepository productRepository;
 
@@ -28,14 +29,6 @@ public class ProductDTOController {
     @Autowired
     private final SupplierRepository supplierRepository;
 
-    @Autowired
-    private StockRepository stockRepository;
-
-    @Autowired
-    private LocationRepository locationRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
 
     @Autowired
     private ProductDTOResourceAssembler assembler;
@@ -55,16 +48,6 @@ public class ProductDTOController {
     }
 
 
-//    @GetMapping("/products")
-//    Resources<Resource<ProductDTO>> findAll() {
-//        List<Resource<ProductDTO>> list = productService.getProducts().stream()
-//                .map(assembler::toResource)
-//                .collect(Collectors.toList());
-//
-//        return new Resources<>(list,
-//                linkTo(methodOn(ProductDTOController.class).findAll()).withSelfRel());
-//    }
-
     @GetMapping
     ResponseEntity<?>findAll(){
         return new ResponseEntity<>(productService.getProducts(),null,HttpStatus.OK);
@@ -73,9 +56,7 @@ public class ProductDTOController {
 
     @PostMapping("/products")
     ResponseEntity<?> save(@RequestBody ProductDTO productDTO) throws URISyntaxException {
-//        Resource<ProductDTO> resource = assembler.toResource(productService.createProduct(productDTO));
-//        //return ResponseEntity.created(new URI(resource.));
-//        return new ResponseEntity<>(resource,null, HttpStatus.OK);
+
         return new ResponseEntity<>(productService.createProduct(productDTO),null,HttpStatus.OK);
 
 
@@ -84,12 +65,7 @@ public class ProductDTOController {
     @PutMapping("/products/{id}")
     ResponseEntity<?> update(@RequestBody ProductDTO productDTO, @PathVariable Integer id) throws URISyntaxException {
 
-
-        Resource<ProductDTO> resource = assembler.toResource(productService.updateProduct(id,productDTO));
-
-        return ResponseEntity
-                .created(new URI(resource.getId().expand().getHref()))
-                .body(resource);
+        return new ResponseEntity<>(productService.updateProduct(id,productDTO),null,HttpStatus.OK);
     }
 
 
@@ -98,9 +74,15 @@ public class ProductDTOController {
         productService.deleteProduct(id);
     }
 
-    @GetMapping("/pc")
-    ResponseEntity<?> getpc(){
-        return new ResponseEntity<>(productCategoryRepository.findById(1).get(),null,HttpStatus.OK);
+    @GetMapping("/categories")
+    ResponseEntity<?> getCategories(){
+        return new ResponseEntity<>(productService.getCategories(),null,HttpStatus.OK);
     }
+
+    @GetMapping("/suppliers")
+    ResponseEntity<?> getSuppliers(){
+        return new ResponseEntity<>(productService.getSuppliers(),null,HttpStatus.OK);
+    }
+
 
 }

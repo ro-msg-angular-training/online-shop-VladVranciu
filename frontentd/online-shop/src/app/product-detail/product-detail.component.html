@@ -1,10 +1,48 @@
 <div *ngIf="product$ | async as product" id="div">
-  <p>Name: {{product.name}}</p> y
-  <p>Description: {{product.description}}</p>
-  <p>Price: {{product.price}} (euro)</p>
-  <p>Weight: {{product.weight}} (kg)</p>
-  <p>Product Category: {{product.productCategoryName}}</p>
-  <p>Supplier: {{product.supplierName}}</p>
+  <form [formGroup]="update" (ngSubmit)="updateProduct(update.value,product)">
+  <div class="field">
+    <p>Name: {{product.name}}</p> 
+    <label id="lname">Lenght must be between 5 and 20</label>
+    <input type="text" formControlName="name" placeholder="Name" name="name" (keyup)="nameValidation($event)">
+  </div>
+  <div class="field">
+    <div>
+    <p>Description: {{product.description}}</p>
+    <label id="ldescription">Lenght must be between 5 and 30</label>
+  </div>
+    <input type="text" formControlName="description" placeholder="Description" name="description" (keyup)="descriptionValidation($event)">
+  </div>
+  <div class="field">
+    <div>
+    <p>Price: {{product.price}} (euro)</p>
+    <label id="lprice">Price must be between 15 and 350</label>
+  </div>
+    <input type="number" formControlName="price" placeholder="Price" name="price" (keyup)="priceValidation($event)">
+  </div>
+  <div class="field">
+    <div>
+    <p>Weight: {{product.weight}} (kg)</p>
+    <label id="lweight">Weight must be between 15 and 100</label>
+    </div>
+    <input type="number" formControlName="weight" placeholder="Weight" name="weight" (keyup)="weightValidation($event)">
+  </div>
+  <div class="field"><p>Category: {{product.productCategoryName}}</p>
+      <select (change)="updateSelectedForCategory($event)" >
+        <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
+      </select>
+    </div>
+    <div class="field"><p>Supplier: {{product.supplierName}}</p>
+    <select (change)="updateSelectedForSupplier($event)" >
+      <option *ngFor="let supplier of suppliers$ | async" [value]="supplier.id">{{supplier.name}}</option>
+    </select>
+  </div>
+  <div *ngIf="validate()">
+    <input type="submit" value="Update">
+  </div>
+  <div *ngIf="!validate()">
+      <input type="submit" [disabled]=true value="Update">
+  </div>
+</form>
   <button (click)="delete(product)">Delete</button>
 </div>
 <button routerLink="/products" routerLinkActive="active">Back</button>

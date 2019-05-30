@@ -3,6 +3,15 @@ var proxyConfig = [{
   context: '/products',
   target: 'http://localhost:8080',
   secure: false
+},
+{
+  context: '/categories',
+  target: 'http://localhost:8080',
+  secure: false
+},{
+  context: '/suppliers',
+  target: 'http://localhost:8080',
+  secure: false
 }];
  
 function setupForCorporateProxy(proxyConfig) {

@@ -7,8 +7,7 @@ import { DisplayProductComponent } from './display-product/display-product.compo
 import {ProductDetailComponent} from './product-detail/product-detail.component';
 import { ProductModule } from './app/product.module'
 import { HttpClientModule } from '@angular/common/http';
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     ProductModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

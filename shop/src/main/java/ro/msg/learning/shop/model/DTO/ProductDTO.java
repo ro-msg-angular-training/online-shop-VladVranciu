@@ -29,9 +29,4 @@ public class  ProductDTO implements Serializable {
     private Integer supplierId;
     private String imgUrl;
 
-    @JsonIgnore
-    private List<Stock> stocks;
-    @JsonIgnore
-    private List<OrderDetail> orderDetails;
-
 }
