@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO implements Serializable {
+public class  ProductDTO implements Serializable {
 
     private Integer id;
     private String name;
@@ -24,6 +24,7 @@ public class ProductDTO implements Serializable {
     private BigDecimal price;
     private Double weight;
     private Integer productCategory;
+    private String productCategoryName;
     private String supplierName;
     private Integer supplierId;
     private String imgUrl;

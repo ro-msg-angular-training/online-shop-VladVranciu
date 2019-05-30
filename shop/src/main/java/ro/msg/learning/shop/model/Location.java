@@ -27,7 +27,7 @@ public class Location {
         this.address = address;
     }
 
-    @OneToOne(cascade = CascadeType.ALL,orphanRemoval=true)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "idaddress",referencedColumnName = "id")
     private Address address;
 

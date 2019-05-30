@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ro.msg.learning.shop.model.StrategyEnum;
-import ro.msg.learning.shop.repository.LocationRepository;
-import ro.msg.learning.shop.repository.ProductRepository;
-import ro.msg.learning.shop.repository.StockRepository;
+import ro.msg.learning.shop.repository.*;
 import ro.msg.learning.shop.service.strategy.MostAbundantStrategy;
 import ro.msg.learning.shop.service.strategy.SingleLocationStrategy;
 import ro.msg.learning.shop.service.strategy.Strategy;
@@ -24,15 +22,16 @@ public class StrategyConfiguration {
     private StockRepository stockRepository;
     private ProductRepository productRepository;
     private LocationRepository locationRepository;
-
+    private CustomerRepository customerRepository;
+    private OrderRepository orderRepository;
 
     @Bean
     public Strategy chooseStrategy(@Value("${strategy.field}") StrategyEnum strategyEnum){
         switch(strategyEnum){
             case MOSTABUNDANT:
-                return new MostAbundantStrategy(productRepository,locationRepository);
+                return new MostAbundantStrategy(productRepository,locationRepository,customerRepository,stockRepository,orderRepository);
             case SINGLELOCATION:
-                return new SingleLocationStrategy(productRepository,locationRepository);
+                return new SingleLocationStrategy(productRepository,locationRepository,customerRepository,stockRepository,orderRepository);
         }
         return null;
     }

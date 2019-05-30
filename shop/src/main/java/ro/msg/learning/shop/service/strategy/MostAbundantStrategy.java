@@ -23,12 +23,57 @@ public class MostAbundantStrategy implements Strategy {
 
     private ProductRepository productRepository;
     private LocationRepository locationRepository;
+    private CustomerRepository customerRepository;
+    private StockRepository stockRepository;
+    private OrderRepository orderRepository;
 
-    public StrategyEnum getStrategy() {
-        return MOSTABUNDANT;
+    public Order compute(OrderInputObject orderInputObject)throws OrderCannotBeCompletedException{
+        Order order = new Order();
+        order.setShippedTo(orderInputObject.getAddress());
+        order.setCreatedAt(orderInputObject.getOrderTimeStamp());
+        List<OrderToCompute> orderToComputes=computeMostAbundant(orderInputObject);
+        order.setShippedFrom(orderToComputes.get(0).getLocation());
+        order.setCustomer(customerRepository.findById(1).get());
+        List<OrderDetail> orderDetails=new ArrayList<>();
+        List<Location> locations = new ArrayList<>();
+        orderToComputes.stream().peek(o ->
+                locations.add(o.getLocation())
+        ).collect(Collectors.toList());
+        orderToComputes.stream().peek(o->{
+            if(!locations.isEmpty()){
+                Location location=o.getLocation();
+                List<Product> products=new ArrayList<>();
+                List<Integer> quantities=new ArrayList<>();
+                locations.stream().peek(l->{
+                    if(l.equals(location)){
+                        if(!products.contains(o.getProduct())){
+                            products.add(o.getProduct());
+                            quantities.add(o.getQuantity());
+                        }
+                    }
+                }).collect(Collectors.toList());
+                locations.stream().filter(l->!l.equals(location)).collect(Collectors.toList());
+                products.stream().peek(product -> {
+                    OrderDetail orderDetail=new OrderDetail();
+                    orderDetail.setProduct(product);
+                    orderDetail.setQuantity(quantities.get(products.indexOf(product)));
+                    Stock stock=stockRepository.findStockByLocationAndProduct(location.getId(), product.getId());
+                    stock.setQuantity(stock.getQuantity()-orderDetail.getQuantity());
+                    stockRepository.save(stock);
+                    orderDetail.setOrder(order);
+                    orderDetails.add(orderDetail);
+                }).collect(Collectors.toList());
+
+            }
+
+        }).collect(Collectors.toList());
+        order.setOrderDetails(orderDetails);
+        orderRepository.save(order);
+        return order;
+
     }
 
-    public List<OrderToCompute> compute(OrderInputObject orderInputObject) throws OrderCannotBeCompletedException {
+    public List<OrderToCompute> computeMostAbundant(OrderInputObject orderInputObject) throws OrderCannotBeCompletedException {
         List<OrderToCompute> orderToComputes = new ArrayList<>();
         List<Location> allLocations = new ArrayList<>();
         orderInputObject.getProducts().stream().peek(p -> {

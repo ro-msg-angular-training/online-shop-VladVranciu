@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -26,22 +25,22 @@ public class Product {
     private BigDecimal price;
     private Double weight;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinColumn(name = "idcategory", referencedColumnName = "id")
     private ProductCategory productCategory;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinColumn(name = "idsupplier", referencedColumnName = "id")
     private Supplier supplier;
 
     @Column(name = "IMAGEURL")
     private String imgUrl;
 
-    @OneToMany(mappedBy = "product", orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", orphanRemoval = true,cascade = CascadeType.MERGE)
             @JsonIgnore
     List<Stock> stocks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", orphanRemoval = true,cascade = CascadeType.MERGE)
             @JsonIgnore
     List<OrderDetail> orderDetails = new ArrayList<>();
 

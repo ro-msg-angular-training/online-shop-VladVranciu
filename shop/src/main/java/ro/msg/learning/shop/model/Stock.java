@@ -13,10 +13,10 @@ import javax.persistence.*;
 public class Stock {
     @Id
     private Integer id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="idproduct",referencedColumnName = "id")
     private Product product;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idlocation",referencedColumnName = "id")
     private Location location;
     private Integer quantity;

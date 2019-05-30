@@ -2,33 +2,31 @@ package ro.msg.learning.shop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.msg.learning.shop.model.*;
 import ro.msg.learning.shop.model.DTO.ProductDTO;
 import ro.msg.learning.shop.repository.*;
 import ro.msg.learning.shop.service.ProductService;
+import ro.msg.learning.shop.service.ProductServiceImpl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 public class ProductDTOController {
-    @Autowired
+
     private ProductService productService;
+    @Autowired
+    private final ProductRepository productRepository;
 
     @Autowired
-    private ProductCategoryRepository productCategoryRepository;
+    private final ProductCategoryRepository productCategoryRepository;
 
     @Autowired
-    private SupplierRepository supplierRepository;
+    private final SupplierRepository supplierRepository;
 
     @Autowired
     private StockRepository stockRepository;
@@ -42,6 +40,13 @@ public class ProductDTOController {
     @Autowired
     private ProductDTOResourceAssembler assembler;
 
+    public ProductDTOController(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository, SupplierRepository supplierRepository) {
+        this.productRepository = productRepository;
+        this.productCategoryRepository = productCategoryRepository;
+        this.supplierRepository = supplierRepository;
+        this.productService=new ProductServiceImpl(this.productRepository, this.productCategoryRepository, this.supplierRepository);
+    }
+
 
     @GetMapping("/products/{id}")
     Resource<ProductDTO> findOne(@PathVariable Integer id) {
@@ -50,21 +55,28 @@ public class ProductDTOController {
     }
 
 
-    @GetMapping("/products")
-    Resources<Resource<ProductDTO>> findAll() {
-        List<Resource<ProductDTO>> list = productService.getProducts().stream()
-                .map(assembler::toResource)
-                .collect(Collectors.toList());
+//    @GetMapping("/products")
+//    Resources<Resource<ProductDTO>> findAll() {
+//        List<Resource<ProductDTO>> list = productService.getProducts().stream()
+//                .map(assembler::toResource)
+//                .collect(Collectors.toList());
+//
+//        return new Resources<>(list,
+//                linkTo(methodOn(ProductDTOController.class).findAll()).withSelfRel());
+//    }
 
-        return new Resources<>(list,
-                linkTo(methodOn(ProductDTOController.class).findAll()).withSelfRel());
+    @GetMapping
+    ResponseEntity<?>findAll(){
+        return new ResponseEntity<>(productService.getProducts(),null,HttpStatus.OK);
     }
+
 
     @PostMapping("/products")
     ResponseEntity<?> save(@RequestBody ProductDTO productDTO) throws URISyntaxException {
-        Resource<ProductDTO> resource = assembler.toResource(productService.createProduct(productDTO));
-        //return ResponseEntity.created(new URI(resource.));
-        return new ResponseEntity<>(resource,null, HttpStatus.OK);
+//        Resource<ProductDTO> resource = assembler.toResource(productService.createProduct(productDTO));
+//        //return ResponseEntity.created(new URI(resource.));
+//        return new ResponseEntity<>(resource,null, HttpStatus.OK);
+        return new ResponseEntity<>(productService.createProduct(productDTO),null,HttpStatus.OK);
 
 
     }
@@ -86,5 +98,9 @@ public class ProductDTOController {
         productService.deleteProduct(id);
     }
 
+    @GetMapping("/pc")
+    ResponseEntity<?> getpc(){
+        return new ResponseEntity<>(productCategoryRepository.findById(1).get(),null,HttpStatus.OK);
+    }
 
 }

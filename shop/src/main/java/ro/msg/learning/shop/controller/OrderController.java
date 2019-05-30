@@ -16,7 +16,7 @@ import ro.msg.learning.shop.repository.CustomerRepository;
 import ro.msg.learning.shop.repository.LocationRepository;
 import ro.msg.learning.shop.repository.ProductRepository;
 import ro.msg.learning.shop.repository.StockRepository;
-import ro.msg.learning.shop.service.CustomUserService;
+//import ro.msg.learning.shop.service.CustomUserService;
 import ro.msg.learning.shop.service.OrderService;
 
 import java.util.ArrayList;
@@ -31,12 +31,6 @@ public class OrderController {
     @Autowired
     private StockRepository stockRepository;
 
-    @Autowired
-    private CustomUserService userDetailsService;
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
     @PostMapping("/orders")
     ResponseEntity<?> save(@RequestBody OrderInputObject orderInputObject){
         Order order;
@@ -49,10 +43,10 @@ public class OrderController {
 
     }
 
-    @GetMapping("/customer")
-    ResponseEntity<?> getCustomer(){
-        return new ResponseEntity<>(customerRepository.login("root"),null,HttpStatus.OK);
-    }
+//    @GetMapping("/customer")
+//    ResponseEntity<?> getCustomer(){
+//        return new ResponseEntity<>(customerRepository.login("root"),null,HttpStatus.OK);
+//    }
 
 //    @GetMapping("/user")
 //    ResponseEntity<?> getUser(){

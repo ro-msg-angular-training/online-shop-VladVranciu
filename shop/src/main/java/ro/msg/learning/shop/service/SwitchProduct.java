@@ -1,5 +1,6 @@
 package ro.msg.learning.shop.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.model.DTO.ProductDTO;
@@ -10,15 +11,13 @@ import ro.msg.learning.shop.repository.ProductCategoryRepository;
 import ro.msg.learning.shop.repository.ProductRepository;
 import ro.msg.learning.shop.repository.SupplierRepository;
 
-@Service
+@AllArgsConstructor
 public class SwitchProduct {
 
-    @Autowired
+
     private ProductCategoryRepository productCategoryRepository;
-    @Autowired
+
     private SupplierRepository supplierRepository;
-    @Autowired
-    private ProductRepository productRepository;
 
 
     public Product fromProductDTOtoProduct(ProductDTO product){
@@ -43,6 +42,7 @@ public class SwitchProduct {
         ProductDTO product1 = new ProductDTO();
         product1.setId(product.getId());
         product1.setProductCategory(product.getProductCategory().getId());
+        product1.setProductCategoryName(product.getProductCategory().getName());
         product1.setDescription(product.getDescription());
         product1.setImgUrl(product.getImgUrl());
         product1.setName(product.getName());

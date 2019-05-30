@@ -1,0 +1,10 @@
+<div *ngIf="product$ | async as product" id="div">
+  <p>Name: {{product.name}}</p> y
+  <p>Description: {{product.description}}</p>
+  <p>Price: {{product.price}} (euro)</p>
+  <p>Weight: {{product.weight}} (kg)</p>
+  <p>Product Category: {{product.productCategoryName}}</p>
+  <p>Supplier: {{product.supplierName}}</p>
+  <button (click)="delete(product)">Delete</button>
+</div>
+<button routerLink="/products" routerLinkActive="active">Back</button>

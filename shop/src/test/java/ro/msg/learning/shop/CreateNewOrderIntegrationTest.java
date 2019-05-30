@@ -55,7 +55,7 @@ public class CreateNewOrderIntegrationTest {
         productList.add(new ProductInputObject(1, 1));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
 
-        Assert.assertEquals(strategy.compute(orderInputObject).size(),1);
+        Assert.assertNotNull(strategy.compute(orderInputObject));
 
         Assert.assertNotNull(orderService.createOrder(orderInputObject));
     }

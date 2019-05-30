@@ -11,10 +11,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.stereotype.Component;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
+//@SpringBootApplication
 //@EnableAuthorizationServer
 //@EnableResourceServer
-@EnableOAuth2Sso
+//@EnableOAuth2Sso
 public class ShopApplication {
 
 	public static void main(String[] args) {

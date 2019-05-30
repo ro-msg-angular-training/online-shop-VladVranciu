@@ -19,23 +19,25 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    ProductRepository productRepository;
-    @Autowired
-    ProductCategoryRepository productCategoryRepository;
-
-    @Autowired
-    SupplierRepository supplierRepository;
-
-    @Autowired
+    private ProductRepository productRepository;
+    private ProductCategoryRepository productCategoryRepository;
+    private SupplierRepository supplierRepository;
     private SwitchProduct switchProduct;
+    public ProductServiceImpl(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository, SupplierRepository supplierRepository) {
+        this.productRepository = productRepository;
+        this.productCategoryRepository = productCategoryRepository;
+        this.supplierRepository = supplierRepository;
+        this.switchProduct=new SwitchProduct(productCategoryRepository,supplierRepository);
+    }
+
+
 
 
     @Override
     public ProductDTO createProduct(ProductDTO product) {
         Product product1=switchProduct.fromProductDTOtoProduct(product);
         productRepository.save(product1);
-        return product;
+        return switchProduct.fromProductToProductDTO(productRepository.findProduct(product1.getName(),product1.getDescription(),product1.getPrice(),product1.getWeight()));
     }
 
     @Override

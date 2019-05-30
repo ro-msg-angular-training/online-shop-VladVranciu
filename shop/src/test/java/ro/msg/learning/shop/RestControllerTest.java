@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.controller;
+package ro.msg.learning.shop;
 
 import org.flywaydb.core.Flyway;
 import org.junit.runner.RunWith;

@@ -1,0 +1,8 @@
+<ul>
+  <li *ngFor="let product of products | async" [class.selected]="product.id===selectedId">
+  <a [routerLink]="['/product',product.id]">
+    {{product.name}},
+    {{product.description}}
+  </a>
+  </li>
+</ul>

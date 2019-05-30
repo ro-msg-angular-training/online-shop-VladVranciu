@@ -34,11 +34,17 @@ import static org.mockito.Mockito.when;
 
 public class StrategyTest {
 
-    private ProductRepository productRepository = Mockito.mock(ProductRepository.class);
-    private LocationRepository locationRepository = Mockito.mock(LocationRepository.class);
-    private StockRepository stockRepository=Mockito.mock(StockRepository.class);
-    private CustomerRepository customerRepository=Mockito.mock(CustomerRepository.class);
-    private OrderRepository orderRepository=Mockito.mock(OrderRepository.class);
+
+    @Mock
+    private ProductRepository productRepository;
+    @Mock
+    private LocationRepository locationRepository;
+    @Mock
+    private StockRepository stockRepository;
+    @Mock
+    private CustomerRepository customerRepository;
+    @Mock
+    private OrderRepository orderRepository;
 
     private Strategy singleLocationStrategy;
     private Strategy mostAbundantStrategy;
@@ -99,8 +105,8 @@ public class StrategyTest {
 
         when(orderRepository.save(any(Order.class))).thenReturn(null);
 
-        singleLocationStrategy=new SingleLocationStrategy(productRepository,locationRepository);
-        mostAbundantStrategy=new MostAbundantStrategy(productRepository,locationRepository);
+        singleLocationStrategy=new SingleLocationStrategy(productRepository,locationRepository,customerRepository,stockRepository,orderRepository);
+        mostAbundantStrategy=new MostAbundantStrategy(productRepository,locationRepository,customerRepository,stockRepository,orderRepository);
     }
 
     @Test
@@ -109,7 +115,7 @@ public class StrategyTest {
         productList.add(new ProductInputObject(1, 20));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
 
-        Assert.assertEquals(singleLocationStrategy.compute(orderInputObject).size(),1);
+        Assert.assertNotNull(singleLocationStrategy.compute(orderInputObject));
 
 
     }
@@ -130,7 +136,7 @@ public class StrategyTest {
         productList.add(new ProductInputObject(2,1));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
 
-        Assert.assertEquals(mostAbundantStrategy.compute(orderInputObject).size(),2);
+        Assert.assertNotNull(mostAbundantStrategy.compute(orderInputObject));
 
     }
 
@@ -141,7 +147,7 @@ public class StrategyTest {
         productList.add(new ProductInputObject(2,100));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
 
-        Assert.assertEquals(mostAbundantStrategy.compute(orderInputObject).size(),2);
+        Assert.assertNotNull(mostAbundantStrategy.compute(orderInputObject));
     }
     @Test
     public void mostAbundantStrategyThrowsException()throws OrderCannotBeCompletedException{
