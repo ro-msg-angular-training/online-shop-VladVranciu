@@ -8,12 +8,15 @@ import {ProductDetailComponent} from './product-detail/product-detail.component'
 import { ProductModule } from './app/product.module'
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminModule } from './admin/admin.module';
+import { ManageProductsComponent } from './admin/manage-products/manage-products.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DisplayProductComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
+    ManageProductsComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +24,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProductModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AdminModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
