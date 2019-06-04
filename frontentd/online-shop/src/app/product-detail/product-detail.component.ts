@@ -9,6 +9,7 @@ import 'rxjs/Rx';
 import { ProductCategory } from '../model/productCategory';
 import {Supplier} from '../model/supplier';
 import { DialogService } from '../dialog.service';
+import { MatSnackBar } from '@angular/material';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -25,7 +26,8 @@ constructor(
   private route: ActivatedRoute,
   private router: Router,
   private service: ProductService,
-  public dialogService:DialogService
+  public dialogService:DialogService,
+  public snackBar:MatSnackBar
 ) {}
 
 editName;
@@ -58,15 +60,19 @@ ngOnInit() {
   delete(product:Product):void{
     this.product$=this.product$.filter(h=> h!=product);
     this.service.deleteProduct(product.id).subscribe();
+    this.router.navigate(['/products']);
+    this.openSnackBar("Product deleted",''+product.id);
   }
 
   updateProduct(updateValue,product:Product){
     var toUpdate=new Product(product.id,updateValue.name,updateValue.description,updateValue.price,updateValue.weight,this.categoryToUpdate,updateValue.productCategory,updateValue.supplier,this.supplierToUpdate,null);
     console.log(product.id);
     this.service.updateProduct(toUpdate,product.id);
-    this.router.navigate(['/products'])
-
+    this.openSnackBar("Product updated",''+product.id);
+    this.router.navigate(['/products']);
   }
+
+
   updateSelectedForSupplier(event):void{
     this.supplierToUpdate=event.target.value
     console.log(this.supplierToUpdate);
@@ -76,6 +82,12 @@ ngOnInit() {
     this.categoryToUpdate=event.target.value
     console.log(this.categoryToUpdate);
     
+  }
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      panelClass : ['background-red']
+    });
   }
 
 

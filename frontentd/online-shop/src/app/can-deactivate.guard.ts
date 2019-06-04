@@ -22,6 +22,11 @@ export class CanDeactivateGuard implements CanDeactivate<ProductDetailComponent>
     if (!component.product$ || !component.weightinput && !component.priceinput && !component.descinput && !component.nameinput) {
       return true;
     }
+    if(component.validate()){
+      return true;
+    }
+    //if(component.weightinput > 10 && component.weightinput < 100 && component.descinput.length > 5 && component.descinput.length < 20 && component.nameinput.length > 5 && component.nameinput.length < 20 && component.priceinput > 10 && component.priceinput < 1000)
     return component.dialogService.confirm('Discard changes?');
+    //return false;
   }
 }

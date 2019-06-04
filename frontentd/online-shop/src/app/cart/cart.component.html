@@ -1,0 +1,40 @@
+
+<div id="wrapper" *ngIf="!cartIsEmpty()">
+<div id="table">
+  <table mat-table *ngFor="let item of cart" >
+    <a>
+    <tr mat-row>
+      <td mat-cell>
+          Name: {{item.name}}
+      </td>
+      <td mat-cell>
+          Price: {{item.price}} (euro)
+      </td>
+      <td mat-cell>
+        Quantity: {{item.quantity}}
+      </td>
+      <td mat-cell>
+        <div >
+        <form role="form" (submit)="updateQuantity($event,item,quantity.value)">
+          <div id="adjust">
+            <input mat-input type="number" #quantity value={{item.quantity}}>
+            </div>
+            <div>
+            <button mat-button type="submit">Adjust</button>
+            </div>
+          </form>
+        </div>
+      </td>
+    </tr>
+  </a>
+</table>
+</div>
+<div id="controls">
+<div class="bottomcontrols">
+<button mat-button (click)="emptyCart()">Empty cart</button>
+</div>
+<div class="bottomcontrols">
+<button mat-button (click)="placeOrder()">Place order</button>
+</div>
+</div>
+</div>

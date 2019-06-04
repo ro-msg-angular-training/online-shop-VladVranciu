@@ -1,0 +1,79 @@
+<div>
+    <table mat-table>
+        <tr mat-row>
+          <td mat-cell class="bottomControls">
+            <button mat-raised-button routerLink="/products" >Back</button>
+          </td>
+        </tr>
+      </table>
+    <form [formGroup]="add" class="form" (ngSubmit)="addProduct(add.value)">
+      <table mat-table>
+        <tr mat-row>
+          <td mat-cell>
+            <mat-form-field class="field">
+              <input matInput type="text" formControlName="name" placeholder="Name" (keyup)="nameValidation($event)">
+              <mat-hint class="hint">
+                Length must be between 5-20
+              </mat-hint>
+            </mat-form-field>
+          </td>
+        </tr> 
+        <tr mat-row>
+          <td mat-cell>
+            <mat-form-field class="field">
+              <input matInput type="text" formControlName="description" placeholder="Description" name="description" (keyup)="descriptionValidation($event)">
+              <mat-hint class="hint">
+                Length must be between 5-20
+              </mat-hint>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr mat-row>
+          <td mat-cell>
+            <mat-form-field class="field">
+              <input matInput type="number" formControlName="price" placeholder="Price"  name="price" (keyup)="priceValidation($event)">
+              <mat-hint class="hint">
+                Price must be between 10 - 1000
+              </mat-hint>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr mat-row>
+          <td mat-cell>
+            <mat-form-field class="field">
+              <input matInput type="number" formControlName="weight" placeholder="Weight" name="weight" (keyup)="weightValidation($event)">
+              <mat-hint class="hint">
+                Weight must be between 10 - 1000
+              </mat-hint>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr mat-row>
+          <td mat-cell>
+              <p>Category</p>
+              <select (change)="updateSelectedForCategory($event)" >
+                <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
+              </select>
+          </td>
+        </tr>
+        <tr mat-row>
+          <td mat-cell>
+            <p>Supplier:</p>
+            <select (change)="updateSelectedForSupplier($event)" >
+              <option *ngFor="let supplier of suppliers$ | async" [value]="supplier.id">{{supplier.name}}</option>
+            </select>
+          </td>
+        </tr>
+        <tr mat-row *ngIf="validate()" class="addbutton">
+          <td mat-cell>
+            <button mat-raised-button type="submit" >Add</button>
+          </td>
+        </tr>
+        <tr mat-row *ngIf="!validate()" class="addbutton">
+          <td mat-cell>
+            <button mat-raised-button type="submit" [disabled]="true" >Add</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>

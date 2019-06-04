@@ -1,0 +1,25 @@
+<div id="wrapper">
+  <form [formGroup]="login" class="form" (ngSubmit)="loginUser(login.value)">
+    <table mat-table>
+      <tr mat-row>
+        <td mat-cell>
+          <mat-form-field class="field">
+            <input matInput type="text" formControlName="user" placeholder="User">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr mat-row>
+        <td mat-cell>
+          <mat-form-field class="field">
+            <input matInput type="text" formControlName="pass" placeholder="Password">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr mat-row>
+        <td mat-cell>
+          <button mat-button type="submit">Login</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

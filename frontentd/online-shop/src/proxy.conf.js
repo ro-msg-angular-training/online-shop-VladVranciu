@@ -12,6 +12,10 @@ var proxyConfig = [{
   context: '/suppliers',
   target: 'http://localhost:8080',
   secure: false
+},{
+  context: '/user',
+  target: 'http://localhost:8080',
+  secure: false
 }];
  
 function setupForCorporateProxy(proxyConfig) {

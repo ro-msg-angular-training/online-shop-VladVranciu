@@ -1,48 +1,86 @@
 <div *ngIf="product$ | async as product" id="div">
-  <form [formGroup]="update" (ngSubmit)="updateProduct(update.value,product)">
-  <div class="field">
-    <p>Name: {{product.name}}</p> 
-    <label id="lname">Lenght must be between 5 and 20</label>
-    <input type="text" formControlName="name" placeholder="Name" name="name" (keyup)="nameValidation($event)">
-  </div>
-  <div class="field">
-    <div>
-    <p>Description: {{product.description}}</p>
-    <label id="ldescription">Lenght must be between 5 and 30</label>
-  </div>
-    <input type="text" formControlName="description" placeholder="Description" name="description" (keyup)="descriptionValidation($event)">
-  </div>
-  <div class="field">
-    <div>
-    <p>Price: {{product.price}} (euro)</p>
-    <label id="lprice">Price must be between 15 and 350</label>
-  </div>
-    <input type="number" formControlName="price" placeholder="Price" name="price" (keyup)="priceValidation($event)">
-  </div>
-  <div class="field">
-    <div>
-    <p>Weight: {{product.weight}} (kg)</p>
-    <label id="lweight">Weight must be between 15 and 100</label>
-    </div>
-    <input type="number" formControlName="weight" placeholder="Weight" name="weight" (keyup)="weightValidation($event)">
-  </div>
-  <div class="field"><p>Category: {{product.productCategoryName}}</p>
-      <select (change)="updateSelectedForCategory($event)" >
-        <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
-      </select>
-    </div>
-    <div class="field"><p>Supplier: {{product.supplierName}}</p>
-    <select (change)="updateSelectedForSupplier($event)" >
-      <option *ngFor="let supplier of suppliers$ | async" [value]="supplier.id">{{supplier.name}}</option>
-    </select>
-  </div>
-  <div *ngIf="validate()">
-    <input type="submit" value="Update">
-  </div>
-  <div *ngIf="!validate()">
-      <input type="submit" [disabled]=true value="Update">
-  </div>
-</form>
-  <button (click)="delete(product)">Delete</button>
+  <table mat-table>
+      <tr mat-row>
+        <td mat-cell class="bottomControls">
+          <button mat-raised-button routerLink="/products" >Back</button>
+        </td>
+        <td mat-cell class="bottomControls">
+          <button mat-raised-button (click)="delete(product)">Delete</button>
+        </td>
+      </tr>
+    </table>
+  <form [formGroup]="update" class="form" (ngSubmit)="updateProduct(update.value,product)">
+    <table mat-table>
+      <tr mat-row>
+        <td mat-cell>
+          <mat-form-field class="field">
+            <p>Name: {{product.name}}</p> 
+            <input matInput type="text" formControlName="name" (keyup)="nameValidation($event)">
+            <mat-hint class="hint">
+              Length must be between 5-20
+            </mat-hint>
+          </mat-form-field>
+        </td>
+      </tr> 
+      <tr mat-row>
+        <td mat-cell>
+          <mat-form-field class="field">
+            <p>Description: {{product.description}}</p>
+            <input matInput type="text" formControlName="description" name="description" (keyup)="descriptionValidation($event)">
+            <mat-hint class="hint">
+              Length must be between 5-20
+            </mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr mat-row>
+        <td mat-cell>
+          <mat-form-field class="field">
+            <p>Price: {{product.price}} (euro)</p>
+            <input matInput type="number" formControlName="price"  name="price" (keyup)="priceValidation($event)">
+            <mat-hint class="hint">
+              Price must be between 10 - 1000
+            </mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr mat-row>
+        <td mat-cell>
+          <mat-form-field class="field">
+            <p>Weight: {{product.weight}} (kg)</p>
+            <input matInput type="number" formControlName="weight" name="weight" (keyup)="weightValidation($event)">
+            <mat-hint class="hint">
+              Weight must be between 10 - 1000
+            </mat-hint>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr mat-row>
+        <td mat-cell>
+            <p>Category: {{product.productCategoryName}}</p>
+            <select (change)="updateSelectedForCategory($event)" >
+                <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
+              </select>
+        </td>
+      </tr>
+      <tr mat-row>
+        <td mat-cell>
+          <p>Supplier: {{product.supplierName}}</p>
+          <select (change)="updateSelectedForSupplier($event)" >
+            <option *ngFor="let supplier of suppliers$ | async" [value]="supplier.id">{{supplier.name}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr mat-row *ngIf="validate()" class="updatebutton">
+        <td mat-cell>
+          <button class="updatebutton" mat-raised-button type="submit" >Update</button>
+        </td>
+      </tr>
+      <tr mat-row *ngIf="!validate()" class="updatebutton">
+        <td mat-cell>
+          <button class="updatebutton" mat-raised-button type="submit" [disabled]="true" >Update</button>
+        </td>
+      </tr>
+    </table>
+  </form>
 </div>
-<button routerLink="/products" routerLinkActive="active">Back</button>

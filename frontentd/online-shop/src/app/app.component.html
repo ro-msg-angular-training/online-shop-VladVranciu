@@ -1,10 +1,10 @@
-<h1 class="title">Angular Router</h1>
-<nav>
+<h1 class="title">Online SHOP</h1>
+<mat-toolbar *ngIf="loggedIn()">
   <a routerLink="/products" routerLinkActive="active">Products</a>
-  <a routerLink="/admin" routerLinkActive="active">Admin</a>
-  <a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>
-</nav>
-<div>
-  <router-outlet #routerOutlet="outlet"></router-outlet>
-</div>
-<router-outlet name="popup"></router-outlet>
+  <a routerLink="/cart" routerLinkActive="active">Cart</a>
+</mat-toolbar>
+<mat-toolbar *ngIf="!loggedIn()">
+    <a routerLink="/login" routerLinkActive="active">Login</a>
+    <a routerLink="/register" routerLinkActive="active">Register</a>
+  </mat-toolbar>
+<router-outlet #routerOutlet="outlet"></router-outlet>

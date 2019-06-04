@@ -5,6 +5,7 @@ import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.msg.learning.shop.model.CustomUser;
 import ro.msg.learning.shop.model.DTO.ProductDTO;
 import ro.msg.learning.shop.repository.*;
 import ro.msg.learning.shop.service.ProductService;
@@ -84,5 +85,8 @@ public class ProductDTOController {
         return new ResponseEntity<>(productService.getSuppliers(),null,HttpStatus.OK);
     }
 
-
+    @GetMapping("/user")
+    ResponseEntity<?> login(CustomUser customUser){
+        return new ResponseEntity<>(customUser,null,HttpStatus.OK);
+    }
 }

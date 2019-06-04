@@ -4,7 +4,6 @@ import { CommonModule }   from '@angular/common';
 import { AdminComponent }           from './admin/admin.component';
 import { AdminDashboardComponent }  from './admin-dashboard/admin-dashboard.component';
 
-import {ManageProductsComponent} from './manage-products/manage-products.component'
 import { AdminRoutingModule }       from './admin-routing.module';
  
 @NgModule({

@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ProductCategory } from './model/productCategory';
 import { Supplier } from './model/supplier';
+import { OrderInputObject } from './model/orderInputObject';
+import { Exception } from './model/exception';
 
 @Injectable({
     providedIn: 'root',
@@ -15,8 +17,8 @@ export class ProductService{
 
     productsUrl='http://localhost:8080/products';
     categoriesUrl='http://localhost:8080/categories';
-    suppliersUrl='http://localhost:8080/suppliers'
-
+    suppliersUrl='http://localhost:8080/suppliers';
+    ordersUrl='http://localhost:8080/orders';
 
     constructor(private http:HttpClient){
     }
@@ -64,7 +66,28 @@ export class ProductService{
             .pipe(catchError(this.handleError));
     }
 
-    
+    addProduct(product:Product){
+        let hd=new HttpHeaders({
+            'Content-Type':  'application/json'
+        })
+  
+        return this.http.post<Product>(this.productsUrl,product).subscribe(res=>{
+
+        });
+    }
+
+    placeOrder(oio:OrderInputObject){
+        let hd=new HttpHeaders({
+            'Content-Type':  'application/json'
+        })
+        return this.http.post<Exception>(this.ordersUrl,oio)
+        // .subscribe(res=>{
+                // console.log(res);
+                // result=res as Exception
+                // localStorage.setItem("lastorder",JSON.stringify(res));
+        // });
+        
+    }
 
     getProduct(id:number | string){
         return this.getProducts().pipe(

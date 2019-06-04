@@ -9,14 +9,25 @@ import { ProductModule } from './app/product.module'
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminModule } from './admin/admin.module';
-import { ManageProductsComponent } from './admin/manage-products/manage-products.component';
-
+import { AddProductComponent } from './add-product/add-product.component';
+import { CartComponent } from './cart/cart.component';
+import {MatSelectModule} from '@angular/material/select';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
     DisplayProductComponent,
     ProductDetailComponent,
-    ManageProductsComponent
+    AddProductComponent,
+    CartComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,8 +38,16 @@ import { ManageProductsComponent } from './admin/manage-products/manage-products
     ReactiveFormsModule,
     AdminModule,
     AppRoutingModule,
+    MatSelectModule,
+    MatToolbarModule,
+    MatListModule,
+    MatButtonModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent],
   exports:[RouterModule]
 })

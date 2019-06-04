@@ -1,8 +1,25 @@
-<ul>
-  <li *ngFor="let product of products | async" [class.selected]="product.id===selectedId">
-  <a [routerLink]="['/product',product.id]">
-    {{product.name}},
-    {{product.description}}
+  <div id="wrapper">
+    <div id="table">
+  <table mat-table *ngFor="let product of products | async" [class.selected]="product.id===selectedId">
+    <a [routerLink]="['/product',product.id]">
+    <tr mat-row>
+      <td mat-cell>
+          Name: {{product.name}}
+      </td>
+      <td mat-cell>
+        Description: {{product.description}}
+      </td>
+      <td mat-cell>
+          Price: {{product.price}} (euro)
+      </td>
+    </tr>
   </a>
-  </li>
-</ul>
+
+  <button mat-button (click)="addToCart(product)">Add to cart</button>
+</table>
+
+</div>
+<div id="addbutton">
+  <button mat-button routerLink="/add">Add new product</button>
+  </div>
+</div>
