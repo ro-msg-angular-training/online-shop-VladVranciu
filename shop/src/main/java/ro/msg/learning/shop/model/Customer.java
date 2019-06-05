@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Customer {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name="FIRSTNAME")
     private String firstName;

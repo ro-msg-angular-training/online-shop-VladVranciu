@@ -10,11 +10,16 @@ export class AuthService {
   redirectUrl:string;
   constructor() { }
 
-  login():Observable<boolean>{
-    return of(true).pipe(
-      delay(1000),
-      tap(val=>this.isLoggedIn=true)
-    );
+  // login():Observable<boolean>{
+  //   return of(true).pipe(
+  //     delay(1000),
+  //     tap(val=>this.isLoggedIn=true)
+  //   );
+  // }
+  login(){
+    if(localStorage.getItem('user')){
+      this.isLoggedIn=true;
+    }
   }
   logout(): void {
     this.isLoggedIn = false;

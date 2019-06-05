@@ -8,6 +8,7 @@ import { ProductCategory } from './model/productCategory';
 import { Supplier } from './model/supplier';
 import { OrderInputObject } from './model/orderInputObject';
 import { Exception } from './model/exception';
+import { Customer } from './model/customer';
 
 @Injectable({
     providedIn: 'root',
@@ -21,20 +22,26 @@ export class UserService{
     constructor(private http:HttpClient){
     }
 
-    login(credentials, callback) {
+       register(customer:Customer){
+        this.http.post<Customer>("http://localhost:8080/register",customer).subscribe(res=>{
 
-        const headers = new HttpHeaders(credentials ? {
-            authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-        } : {});
-
-        this.http.get('http://localhost:8080/user', {headers: headers}).subscribe(response => {
-            
-                localStorage.setItem('user',JSON.stringify(response))
-            
-            return callback && callback();
         });
+       }
+        login(credentials, callback) {
 
-    }
+            const headers = new HttpHeaders(credentials ? {
+                authorization : 'Basic ' + btoa(credentials.user + ':' + credentials.pass)
+            } : {});
+    
+            this.http.get('http://localhost:8080/login', {headers: headers}).subscribe(response => {
+                if (response) {
+                    // this.authenticated = true;
+                    localStorage.setItem('user',JSON.stringify(credentials));
+                } 
+                return callback && callback();
+            });
+    
+        }
     private handleError(error:HttpErrorResponse){
         if(error.error instanceof ErrorEvent){
             console.error('An error occurred:',error.error.message);

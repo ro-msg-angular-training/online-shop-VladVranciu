@@ -1,0 +1,53 @@
+<div id="wrapper">
+  <form [formGroup]="register" class="form" (ngSubmit)="registerUser(register.value)">
+    <table mat-table>
+        <tr mat-row>
+            <td mat-cell>
+              <mat-form-field class="field">
+                <input matInput type="text" formControlName="firstname" placeholder="First Name">
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr mat-row>
+              <td mat-cell>
+                <mat-form-field class="field">
+                  <input matInput type="text" formControlName="lastname" placeholder="Last Name">
+                </mat-form-field>
+              </td>
+            </tr>
+      <tr mat-row>
+        <td mat-cell>
+          <mat-form-field class="field">
+            <input matInput type="text" formControlName="user" placeholder="User">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr mat-row>
+        <td mat-cell>
+          <mat-form-field class="field">
+            <input matInput type="password" formControlName="pass" placeholder="Password">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr mat-row>
+          <td mat-cell>
+            <mat-form-field class="field">
+              <input matInput type="password" formControlName="pass2" placeholder="Repeat Password">
+            </mat-form-field>
+          </td>
+        </tr>
+      <tr mat-row>
+          <td mat-cell>
+            <mat-form-field class="field">
+              <input matInput type="text" formControlName="email" placeholder="Email">
+            </mat-form-field>
+          </td>
+        </tr>
+      <tr mat-row>
+        <td mat-cell>
+          <button mat-button type="submit">Register</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

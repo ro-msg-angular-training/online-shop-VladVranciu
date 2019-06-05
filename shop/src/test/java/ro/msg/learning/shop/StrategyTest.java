@@ -114,8 +114,10 @@ public class StrategyTest {
         List<ProductInputObject> productList = new ArrayList<>();
         productList.add(new ProductInputObject(1, 20));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
-
-        Assert.assertNotNull(singleLocationStrategy.compute(orderInputObject));
+        String[] user=new String[2];
+        user[0]="user";
+        user[1]="pass";
+        Assert.assertNotNull(singleLocationStrategy.compute(orderInputObject,user));
 
 
     }
@@ -124,9 +126,11 @@ public class StrategyTest {
         List<ProductInputObject> productList = new ArrayList<>();
         productList.add(new ProductInputObject(1, 100000));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
-
+        String[] user=new String[2];
+        user[0]="user";
+        user[1]="pass";
         expectedException.expect(OrderCannotBeCompletedException.class);
-        singleLocationStrategy.compute(orderInputObject);
+        singleLocationStrategy.compute(orderInputObject,user);
     }
 
     @Test
@@ -135,8 +139,10 @@ public class StrategyTest {
         productList.add(new ProductInputObject(1, 20));
         productList.add(new ProductInputObject(2,1));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
-
-        Assert.assertNotNull(mostAbundantStrategy.compute(orderInputObject));
+        String[] user=new String[2];
+        user[0]="user";
+        user[1]="pass";
+        Assert.assertNotNull(mostAbundantStrategy.compute(orderInputObject,user));
 
     }
 
@@ -146,8 +152,10 @@ public class StrategyTest {
         productList.add(new ProductInputObject(1, 100));
         productList.add(new ProductInputObject(2,100));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
-
-        Assert.assertNotNull(mostAbundantStrategy.compute(orderInputObject));
+        String[] user=new String[2];
+        user[0]="user";
+        user[1]="pass";
+        Assert.assertNotNull(mostAbundantStrategy.compute(orderInputObject,user));
     }
     @Test
     public void mostAbundantStrategyThrowsException()throws OrderCannotBeCompletedException{
@@ -155,9 +163,11 @@ public class StrategyTest {
         productList.add(new ProductInputObject(1, 999999));
         productList.add(new ProductInputObject(2,1));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
-
+        String[] user=new String[2];
+        user[0]="user";
+        user[1]="pass";
         expectedException.expect(OrderCannotBeCompletedException.class);
-        mostAbundantStrategy.compute(orderInputObject);
+        mostAbundantStrategy.compute(orderInputObject,user);
     }
 }
 

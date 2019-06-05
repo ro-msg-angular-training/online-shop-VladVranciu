@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import ro.msg.learning.shop.exception.OrderCannotBeCompletedException;
 import ro.msg.learning.shop.exception.ProductNotFoundException;
 import ro.msg.learning.shop.model.*;
@@ -27,13 +29,22 @@ public class MostAbundantStrategy implements Strategy {
     private StockRepository stockRepository;
     private OrderRepository orderRepository;
 
-    public Order compute(OrderInputObject orderInputObject)throws OrderCannotBeCompletedException{
+    public MostAbundantStrategy(ProductRepository productRepository, LocationRepository locationRepository, CustomerRepository customerRepository, StockRepository stockRepository, OrderRepository orderRepository) {
+        this.productRepository = productRepository;
+        this.locationRepository = locationRepository;
+        this.customerRepository = customerRepository;
+        this.stockRepository = stockRepository;
+        this.orderRepository = orderRepository;
+    }
+
+    public Order compute(OrderInputObject orderInputObject, String[] customer)throws OrderCannotBeCompletedException{
         Order order = new Order();
         order.setShippedTo(orderInputObject.getAddress());
         order.setCreatedAt(orderInputObject.getOrderTimeStamp());
         List<OrderToCompute> orderToComputes=computeMostAbundant(orderInputObject);
         order.setShippedFrom(orderToComputes.get(0).getLocation());
-        order.setCustomer(customerRepository.findById(1).get());
+        Customer customer1=customerRepository.login(customer[0]);
+        order.setCustomer(customer1);
         List<OrderDetail> orderDetails=new ArrayList<>();
         List<Location> locations = new ArrayList<>();
         orderToComputes.stream().peek(o ->
@@ -69,6 +80,7 @@ public class MostAbundantStrategy implements Strategy {
         }).collect(Collectors.toList());
         order.setOrderDetails(orderDetails);
         orderRepository.save(order);
+        sendSimpleMessage(customer1.getEmail(),"Order confirmation","Your order has been successfully placed\n Order details: "+orderDetails.toString());
         return order;
 
     }
@@ -95,5 +107,15 @@ public class MostAbundantStrategy implements Strategy {
         }).collect(Collectors.toList());
 
         return orderToComputes;
+    }
+    @Autowired
+    public JavaMailSender emailSender;
+
+    public void sendSimpleMessage(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        emailSender.send(message);
     }
 }

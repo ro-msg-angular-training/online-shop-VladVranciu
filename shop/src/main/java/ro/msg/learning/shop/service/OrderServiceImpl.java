@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.config.StrategyConfiguration;
 import ro.msg.learning.shop.exception.OrderCannotBeCompletedException;
@@ -50,8 +53,8 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public Order createOrder(OrderInputObject orderInputObject) throws OrderCannotBeCompletedException, ProductNotFoundException {
-        return strategy.compute(orderInputObject);
+    public Order createOrder(OrderInputObject orderInputObject,String[] customer) throws OrderCannotBeCompletedException, ProductNotFoundException {
+        return strategy.compute(orderInputObject,customer);
     }
 
 

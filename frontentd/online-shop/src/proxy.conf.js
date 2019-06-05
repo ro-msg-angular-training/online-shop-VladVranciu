@@ -13,7 +13,7 @@ var proxyConfig = [{
   target: 'http://localhost:8080',
   secure: false
 },{
-  context: '/user',
+  context: '/login',
   target: 'http://localhost:8080',
   secure: false
 }];

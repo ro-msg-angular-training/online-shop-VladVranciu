@@ -1,8 +1,12 @@
 package ro.msg.learning.shop.service;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ro.msg.learning.shop.model.Customer;
+import ro.msg.learning.shop.model.DTO.CustomerDTO;
 import ro.msg.learning.shop.model.DTO.ProductCategoryDTO;
 import ro.msg.learning.shop.model.DTO.ProductDTO;
 import ro.msg.learning.shop.model.DTO.SupplierDTO;
@@ -14,6 +18,7 @@ import ro.msg.learning.shop.repository.ProductRepository;
 import ro.msg.learning.shop.repository.SupplierRepository;
 
 @AllArgsConstructor
+@NoArgsConstructor
 public class SwitchProduct {
 
 
@@ -82,5 +87,22 @@ public class SwitchProduct {
         productCategoryDTO.setDescription(productCategory.getDescription());
         productCategoryDTO.setName(productCategory.getName());
         return productCategoryDTO;
+    }
+
+//    public CustomerDTO fromCustomerToCustomerDTO(Customer customer){
+//        CustomerDTO customerDTO=new CustomerDTO();
+//        customerDTO.setEmail(customer.getEmail());
+//        customerDTO.set
+//    }
+
+    BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
+    public Customer fromCustomerDTOtoCustomer(CustomerDTO customerDTO){
+        Customer customer=new Customer();
+        customer.setEmail(customerDTO.getEmail());
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
+        customer.setPassword(bCryptPasswordEncoder.encode(customerDTO.getPassword()));
+        customer.setUsername(customerDTO.getUsername());
+        return customer;
     }
 }

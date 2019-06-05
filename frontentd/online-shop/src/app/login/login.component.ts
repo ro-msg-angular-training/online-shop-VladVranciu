@@ -24,11 +24,11 @@ export class LoginComponent implements OnInit {
 
   }
 
- loginUser(loginValue) {
-  var credentials = {username: ''+loginValue.user, password: ''+loginValue.pass};
-    this.service.login(credentials, () => {
-        this.router.navigateByUrl('/producs');
-    });
-    return false;
-  }
+loginUser(loginValue) {
+  var credentials = {user: loginValue.user, pass: loginValue.pass};
+  this.service.login(credentials, () => {
+      this.router.navigate(['/products']);
+  });
+  return false;
+}
 }

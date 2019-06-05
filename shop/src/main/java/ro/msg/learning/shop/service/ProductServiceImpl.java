@@ -2,6 +2,7 @@ package ro.msg.learning.shop.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.exception.ProductNotFoundException;
 import ro.msg.learning.shop.model.DTO.ProductCategoryDTO;
@@ -25,11 +26,13 @@ public class ProductServiceImpl implements ProductService {
     private ProductCategoryRepository productCategoryRepository;
     private SupplierRepository supplierRepository;
     private SwitchProduct switchProduct;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     public ProductServiceImpl(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository, SupplierRepository supplierRepository) {
         this.productRepository = productRepository;
         this.productCategoryRepository = productCategoryRepository;
         this.supplierRepository = supplierRepository;
-        this.switchProduct=new SwitchProduct(productCategoryRepository,supplierRepository);
+        this.bCryptPasswordEncoder=new BCryptPasswordEncoder();
+        this.switchProduct=new SwitchProduct(productCategoryRepository,supplierRepository,bCryptPasswordEncoder);
     }
 
 

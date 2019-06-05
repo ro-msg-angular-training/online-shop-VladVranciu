@@ -29,13 +29,15 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/products","/suppliers","/user","/categories").permitAll()
+                .antMatchers("/user","/register").permitAll()
+                .antMatchers("/products","/suppliers","/categories","/orders","/products/{id}").authenticated()
                 .anyRequest().authenticated()
+                //.antMatchers("/register").permitAll()
                 .and()
                 .csrf().disable()
                 .httpBasic()
                 .authenticationEntryPoint(authenticationEntryPoint);
-
+        http.cors();
 
         //http.addFilterAfter((Filter) new SecurityProperties.Filter(),BasicAuthenticationFilter.class);
     }

@@ -50,8 +50,9 @@ export class AddProductComponent implements OnInit {
   addProduct(addValue){
     var toUpdate=new Product(null,addValue.name,addValue.description,addValue.price,addValue.weight,this.categoryToUpdate,addValue.productCategory,addValue.supplier,this.supplierToUpdate,null);
     this.service.addProduct(toUpdate);
-    this.openSnackBar("Product added",addValue.name)
     this.router.navigate(['/products'])
+    this.openSnackBar("Product added",addValue.name)
+    
   }
 
   updateSelectedForSupplier(event):void{

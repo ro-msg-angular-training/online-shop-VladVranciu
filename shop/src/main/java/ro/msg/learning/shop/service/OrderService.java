@@ -8,6 +8,6 @@ import ro.msg.learning.shop.model.DTO.OrderInputObject;
 import java.util.List;
 
 public interface OrderService {
-    Order createOrder(OrderInputObject orderInputObject)throws OrderCannotBeCompletedException, ProductNotFoundException;
+    Order createOrder(OrderInputObject orderInputObject, String[] customer)throws OrderCannotBeCompletedException, ProductNotFoundException;
     List<Order> findAll();
 }

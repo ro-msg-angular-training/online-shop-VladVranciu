@@ -55,20 +55,15 @@ export class CartComponent implements OnInit {
     }
     let address=new Address("Romania","Suceava","Suceava","Address1");
     var oio=new OrderInputObject(address,products);
-    var success;
     
-    this.service.placeOrder(oio).subscribe(res=>{
-      success=res as Exception
-      this.message=success.message;
-      
-    })
-    console.log(this.message);
+    this.service.placeOrder(oio);
+    var success=JSON.parse(localStorage.getItem('lastorder'));
+    console.log(success);
     // var success=JSON.parse(localStorage.getItem('lastorder'));
-    if(this.message===null){
-      this.openSnackBar("Order placed successfully",null);
+    if(success.message){
+      this.openSnackBar(success.message,null);
     }else{
-      this.openSnackBar("Order could not be placed",null);
-      
+      this.openSnackBar("Order placed successfully",null);
     }
     this.router.navigate(['/products']);
   }

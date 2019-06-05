@@ -28,6 +28,7 @@ public class OrderDetail {
     public String toString() {
         return "OrderDetail{" +
                 "id=" + id +
+                "product="+product+
                 ", quantity=" + quantity +
                 '}';
     }

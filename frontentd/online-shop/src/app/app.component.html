@@ -2,6 +2,7 @@
 <mat-toolbar *ngIf="loggedIn()">
   <a routerLink="/products" routerLinkActive="active">Products</a>
   <a routerLink="/cart" routerLinkActive="active">Cart</a>
+  <a routerLink="/login" routerLinkActive="active" (click)="logout()">Logout</a>
 </mat-toolbar>
 <mat-toolbar *ngIf="!loggedIn()">
     <a routerLink="/login" routerLinkActive="active">Login</a>

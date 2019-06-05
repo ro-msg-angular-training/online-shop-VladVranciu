@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,7 @@ import { LoginComponent } from './login/login.component';
     AddProductComponent,
     CartComponent,
     LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

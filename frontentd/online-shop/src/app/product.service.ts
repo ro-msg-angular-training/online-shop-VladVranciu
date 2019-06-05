@@ -24,68 +24,71 @@ export class ProductService{
     }
 
     getProductCategories():Observable<ProductCategory[]>{
-        let hd=new HttpHeaders({
-            'Content-Type':  'application/json'
-        });
-        return this.http.get<ProductCategory[]>(this.categoriesUrl,{headers:hd})
+        var credentials=JSON.parse(localStorage.getItem('user'));
+        const headers = new HttpHeaders(credentials ? {
+            authorization : 'Basic ' + btoa(credentials.user + ':' + credentials.pass)
+        } : {});
+        return this.http.get<ProductCategory[]>(this.categoriesUrl,{headers:headers})
                     .pipe(catchError(this.handleError));
     }
 
     getSuppliers():Observable<Supplier[]>{
-        let hd=new HttpHeaders({
-            'Content-Type':  'application/json'
-        });
-        return this.http.get<Supplier[]>(this.suppliersUrl,{headers:hd})
+        var credentials=JSON.parse(localStorage.getItem('user'));
+        const headers = new HttpHeaders(credentials ? {
+            authorization : 'Basic ' + btoa(credentials.user + ':' + credentials.pass)
+        } : {});
+        return this.http.get<Supplier[]>(this.suppliersUrl,{headers:headers})
                     .pipe(catchError(this.handleError));
     }
 
     getProducts():Observable<Product[]>{
-        let hd=new HttpHeaders({
-            'Content-Type':  'application/json'
-        })
-        return this.http.get<Product[]>(this.productsUrl,{headers:hd})
+        var credentials=JSON.parse(localStorage.getItem('user'));
+        const headers = new HttpHeaders(credentials ? {
+            authorization : 'Basic ' + btoa(credentials.user + ':' + credentials.pass)
+        } : {});
+        return this.http.get<Product[]>(this.productsUrl,{headers:headers})
             .pipe(catchError(this.handleError));
             
 
     }
     updateProduct(product:Product,id:any){
-        let hd=new HttpHeaders({
-            'Content-Type':  'application/json'
-        })
+        var credentials=JSON.parse(localStorage.getItem('user'));
+        const headers = new HttpHeaders(credentials ? {
+            authorization : 'Basic ' + btoa(credentials.user + ':' + credentials.pass)
+        } : {});
         const updateUrl=`${this.productsUrl}/${id}`
-        return this.http.put<Product>(updateUrl,product,id).subscribe(res=>{
+        return this.http.put<Product>(updateUrl,product,{headers:headers}).subscribe(res=>{
 
         });
     }
     deleteProduct(id:number | string){
-        let hd=new HttpHeaders({
-            'Content-Type':  'application/json'
-        })
+        var credentials=JSON.parse(localStorage.getItem('user'));
+        const headers = new HttpHeaders(credentials ? {
+            authorization : 'Basic ' + btoa(credentials.user + ':' + credentials.pass)
+        } : {});
         const deleteUrl=`${this.productsUrl}/${id}`
-        return this.http.delete(deleteUrl,{headers:hd})
+        return this.http.delete(deleteUrl,{headers:headers})
             .pipe(catchError(this.handleError));
     }
 
     addProduct(product:Product){
-        let hd=new HttpHeaders({
-            'Content-Type':  'application/json'
-        })
-  
-        return this.http.post<Product>(this.productsUrl,product).subscribe(res=>{
+        var credentials=JSON.parse(localStorage.getItem('user'));
+        const headers = new HttpHeaders(credentials ? {
+            authorization : 'Basic ' + btoa(credentials.user + ':' + credentials.pass)
+        } : {});
+        return this.http.post<Product>(this.productsUrl,product,{headers:headers}).subscribe(res=>{
 
         });
     }
 
     placeOrder(oio:OrderInputObject){
-        let hd=new HttpHeaders({
-            'Content-Type':  'application/json'
-        })
-        return this.http.post<Exception>(this.ordersUrl,oio)
-        // .subscribe(res=>{
-                // console.log(res);
-                // result=res as Exception
-                // localStorage.setItem("lastorder",JSON.stringify(res));
-        // });
+        var credentials=JSON.parse(localStorage.getItem('user'));
+        const headers = new HttpHeaders(credentials ? {
+            authorization : 'Basic ' + btoa(credentials.user + ':' + credentials.pass)
+        } : {});
+        return this.http.post<Observable<Exception>>(this.ordersUrl,oio,{headers:headers}).subscribe(res=>{
+            localStorage.setItem("lastorder",JSON.stringify(res));
+          })
         
     }
 

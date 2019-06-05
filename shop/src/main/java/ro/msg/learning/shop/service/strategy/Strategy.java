@@ -12,5 +12,5 @@ import java.util.List;
 
 public interface Strategy {
     //Strategy(ProductRepository productRepository,LocationRepository locationRepository,CustomerRepository customerRepository,StockRepository stockRepository,OrderRepository orderRepository);
-    Order compute(OrderInputObject orderInputObject) throws OrderCannotBeCompletedException;
+    Order compute(OrderInputObject orderInputObject,String[] Customer) throws OrderCannotBeCompletedException;
 }

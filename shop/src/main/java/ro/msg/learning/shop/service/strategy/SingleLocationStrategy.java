@@ -2,6 +2,10 @@ package ro.msg.learning.shop.service.strategy;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import ro.msg.learning.shop.exception.OrderCannotBeCompletedException;
 import ro.msg.learning.shop.exception.ProductNotFoundException;
 import ro.msg.learning.shop.model.*;
@@ -16,6 +20,7 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Slf4j
 public class SingleLocationStrategy implements Strategy {
 
     private ProductRepository productRepository;
@@ -24,15 +29,22 @@ public class SingleLocationStrategy implements Strategy {
     private StockRepository stockRepository;
     private OrderRepository orderRepository;
 
+    public SingleLocationStrategy(ProductRepository productRepository, LocationRepository locationRepository, CustomerRepository customerRepository, StockRepository stockRepository, OrderRepository orderRepository) {
+        this.productRepository = productRepository;
+        this.locationRepository = locationRepository;
+        this.customerRepository = customerRepository;
+        this.stockRepository = stockRepository;
+        this.orderRepository = orderRepository;
+    }
 
-    public Order compute(OrderInputObject orderInputObject) throws OrderCannotBeCompletedException {
+    public Order compute(OrderInputObject orderInputObject, String[] customer) throws OrderCannotBeCompletedException {
             Order order = new Order();
             List<OrderToCompute> orderToComputes = computeSingleLocation(orderInputObject);
             Location shippedFrom = orderToComputes.get(0).getLocation();
             order.setShippedFrom(shippedFrom);
             order.setCreatedAt(orderInputObject.getOrderTimeStamp());
-            Customer customer = customerRepository.findById(1).get();
-            order.setCustomer(customer);
+            Customer customer1 = customerRepository.login(customer[0]);
+            order.setCustomer(customer1);
             order.setShippedTo(orderInputObject.getAddress());
             List<OrderDetail> orderDetails = new ArrayList<>();
             List<Product> products = new ArrayList<>();
@@ -55,6 +67,8 @@ public class SingleLocationStrategy implements Strategy {
             }).collect(Collectors.toList());
             order.setOrderDetails(orderDetails);
             orderRepository.save(order);
+            sendSimpleMessage(customer1.getEmail(),"Order confirmation","Your order has been successfully placed\n Order details: "+orderDetails.toString());
+            log.info("Order successfully placed");
             return order;
 
     }
@@ -91,5 +105,14 @@ public class SingleLocationStrategy implements Strategy {
             throw new OrderCannotBeCompletedException();
     }
 
+    @Autowired
+    public JavaMailSender emailSender;
 
+    public void sendSimpleMessage(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        emailSender.send(message);
+    }
 }

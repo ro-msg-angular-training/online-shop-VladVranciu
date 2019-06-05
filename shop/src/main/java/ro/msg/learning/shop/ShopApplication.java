@@ -11,8 +11,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.stereotype.Component;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
-//@SpringBootApplication
+//@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
+@SpringBootApplication
 //@EnableAuthorizationServer
 //@EnableResourceServer
 //@EnableOAuth2Sso

@@ -55,9 +55,12 @@ public class CreateNewOrderIntegrationTest {
         productList.add(new ProductInputObject(1, 1));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
 
-        Assert.assertNotNull(strategy.compute(orderInputObject));
+        String[] user=new String[2];
+        user[0]="user";
+        user[1]="pass";
+        Assert.assertNotNull(strategy.compute(orderInputObject,user));
 
-        Assert.assertNotNull(orderService.createOrder(orderInputObject));
+        Assert.assertNotNull(orderService.createOrder(orderInputObject,user));
     }
 
     @Test
@@ -66,10 +69,12 @@ public class CreateNewOrderIntegrationTest {
         List<ProductInputObject> productList = new ArrayList<>();
         productList.add(new ProductInputObject(1, 4000));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
+        String[] user=new String[2];
+        user[0]="user";
+        user[1]="pass";
+        strategy.compute(orderInputObject,user);
 
-        strategy.compute(orderInputObject);
-
-        orderService.createOrder(orderInputObject);
+        orderService.createOrder(orderInputObject,user);
     }
 
     @Test
@@ -78,9 +83,11 @@ public class CreateNewOrderIntegrationTest {
         List<ProductInputObject> productList = new ArrayList<>();
         productList.add(new ProductInputObject(44, 2));
         OrderInputObject orderInputObject = new OrderInputObject(LocalDateTime.now(), new Address("Romania", "Iasi", "Iasi", "address1"), productList);
+        String[] user=new String[2];
+        user[0]="user";
+        user[1]="pass";
+        strategy.compute(orderInputObject,user);
 
-        strategy.compute(orderInputObject);
-
-        orderService.createOrder(orderInputObject);
+        orderService.createOrder(orderInputObject,user);
     }
 }

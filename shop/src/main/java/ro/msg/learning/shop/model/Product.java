@@ -55,7 +55,6 @@ public class Product {
                 ", productCategory=" + productCategory +
                 ", supplier=" + supplier +
                 ", imgUrl='" + imgUrl + '\'' +
-                ", orderDetails=" + orderDetails +
                 '}';
     }
 

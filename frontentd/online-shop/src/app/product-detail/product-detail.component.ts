@@ -68,8 +68,9 @@ ngOnInit() {
     var toUpdate=new Product(product.id,updateValue.name,updateValue.description,updateValue.price,updateValue.weight,this.categoryToUpdate,updateValue.productCategory,updateValue.supplier,this.supplierToUpdate,null);
     console.log(product.id);
     this.service.updateProduct(toUpdate,product.id);
-    this.openSnackBar("Product updated",''+product.id);
     this.router.navigate(['/products']);
+    this.openSnackBar("Product updated",''+product.id);
+    
   }
 
 
