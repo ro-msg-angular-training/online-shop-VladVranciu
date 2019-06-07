@@ -26,31 +26,25 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
+
     private ProductRepository productRepository;
-
-    @Autowired
     private StockRepository stockRepository;
-
-    @Autowired
     private OrderRepository orderRepository;
-
-    @Autowired
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
-
-    @Autowired
     private LocationRepository locationRepository;
-
-    @Autowired
     private Strategy strategy;
+    public OrderServiceImpl(ProductRepository productRepository, StockRepository stockRepository, OrderRepository orderRepository, CustomerRepository customerRepository, LocationRepository locationRepository,Strategy strategy) {
+        this.productRepository = productRepository;
+        this.stockRepository = stockRepository;
+        this.orderRepository = orderRepository;
+        this.customerRepository = customerRepository;
+        this.locationRepository = locationRepository;
+        this.strategy=strategy;
+    }
 
-    private StrategyConfiguration strategyConfiguration=new StrategyConfiguration(stockRepository,productRepository,locationRepository,customerRepository,orderRepository);
 
-    private static final int idCustomer = 1;
-
+//
+//    private StrategyConfiguration strategyConfiguration=new StrategyConfiguration(stockRepository,productRepository,locationRepository,customerRepository,orderRepository);
 
     @Override
     public Order createOrder(OrderInputObject orderInputObject,String[] customer) throws OrderCannotBeCompletedException, ProductNotFoundException {

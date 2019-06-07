@@ -29,7 +29,7 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/user","/register").permitAll()
+                .antMatchers("/user","/register","/location").permitAll()
                 .antMatchers("/products","/suppliers","/categories","/orders","/products/{id}").authenticated()
                 .anyRequest().authenticated()
                 //.antMatchers("/register").permitAll()

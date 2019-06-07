@@ -4,50 +4,73 @@
         <tr mat-row>
             <td mat-cell>
               <mat-form-field class="field">
-                <input matInput type="text" formControlName="firstname" placeholder="First Name">
+                <input matInput type="text" formControlName="firstname" placeholder="First Name" (keyup)="fnameValidation($event)">
+                <mat-hint class="hint">
+                    Length must be between 5-20
+                  </mat-hint>
               </mat-form-field>
             </td>
           </tr>
           <tr mat-row>
               <td mat-cell>
                 <mat-form-field class="field">
-                  <input matInput type="text" formControlName="lastname" placeholder="Last Name">
+                  <input matInput type="text" formControlName="lastname" placeholder="Last Name" (keyup)="lnameValidation($event)">
+                  <mat-hint class="hint">
+                      Length must be between 5-20
+                    </mat-hint>
                 </mat-form-field>
               </td>
             </tr>
       <tr mat-row>
         <td mat-cell>
           <mat-form-field class="field">
-            <input matInput type="text" formControlName="user" placeholder="User">
+            <input matInput type="text" formControlName="user" placeholder="User" (keyup)="userValidation($event)">
+            <mat-hint class="hint">
+                Length must be between 5-20
+              </mat-hint>
           </mat-form-field>
         </td>
       </tr>
       <tr mat-row>
         <td mat-cell>
           <mat-form-field class="field">
-            <input matInput type="password" formControlName="pass" placeholder="Password">
+            <input matInput type="password" formControlName="pass" placeholder="Password" (keyup)="pass1Validation($event)">
+            <mat-hint class="hint">
+                Length must be between 5-20
+              </mat-hint>
           </mat-form-field>
         </td>
       </tr>
       <tr mat-row>
           <td mat-cell>
             <mat-form-field class="field">
-              <input matInput type="password" formControlName="pass2" placeholder="Repeat Password">
+              <input matInput type="password" formControlName="pass2" placeholder="Repeat Password" (keyup)="pass2Validation($event)">
+              <mat-hint class="hint">
+                  Passwords must be alike
+                </mat-hint>
             </mat-form-field>
           </td>
         </tr>
       <tr mat-row>
           <td mat-cell>
             <mat-form-field class="field">
-              <input matInput type="text" formControlName="email" placeholder="Email">
+              <input matInput type="text" formControlName="email" placeholder="Email" (keyup)="emailValidation($event)">
+              <mat-hint class="hint">
+                  Length must be between 5-40
+                </mat-hint>
             </mat-form-field>
           </td>
         </tr>
-      <tr mat-row>
+      <tr mat-row *ngIf="validate()">
         <td mat-cell>
           <button mat-button type="submit">Register</button>
         </td>
       </tr>
+      <tr mat-row *ngIf="!validate()">
+          <td mat-cell>
+            <button mat-button [disabled]="true" type="submit">Register</button>
+          </td>
+        </tr>
     </table>
   </form>
 </div>

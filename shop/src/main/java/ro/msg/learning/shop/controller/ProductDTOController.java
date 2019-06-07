@@ -10,6 +10,7 @@ import ro.msg.learning.shop.model.DTO.ProductDTO;
 import ro.msg.learning.shop.repository.*;
 import ro.msg.learning.shop.service.ProductService;
 import ro.msg.learning.shop.service.ProductServiceImpl;
+import ro.msg.learning.shop.service.strategy.Strategy;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,6 +34,8 @@ public class ProductDTOController {
 
     @Autowired
     private ProductDTOResourceAssembler assembler;
+
+
 
     public ProductDTOController(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository, SupplierRepository supplierRepository) {
         this.productRepository = productRepository;
@@ -89,4 +92,6 @@ public class ProductDTOController {
     ResponseEntity<?> login(CustomUser customUser){
         return new ResponseEntity<>(customUser,null,HttpStatus.OK);
     }
+
+
 }

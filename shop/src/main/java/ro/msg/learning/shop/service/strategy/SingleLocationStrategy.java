@@ -76,26 +76,22 @@ public class SingleLocationStrategy implements Strategy {
     public List<OrderToCompute> computeSingleLocation(OrderInputObject orderInputObject) throws OrderCannotBeCompletedException {
         List<OrderToCompute> orderToComputes = new ArrayList<>();
         List<Location> allLocations = new ArrayList<>();
-        AtomicBoolean ok= new AtomicBoolean(true);
-        orderInputObject.getProducts().stream().peek(p -> {
+
+        orderInputObject.getProducts().parallelStream().forEach(p -> {
             if (!productRepository.findById(p.getProductId()).isPresent())
                 throw new ProductNotFoundException(p.getProductId());
             List<Location> aux = locationRepository.findSingleLocation(p.getQuantity(), productRepository.findById(p.getProductId()).get());
-            if (aux == null || aux.isEmpty())
-                //allLocations.addAll(new ArrayList<>());
-                ok.set(false);
-            else
+            if (aux != null || !aux.isEmpty())
                 allLocations.addAll(locationRepository.findSingleLocation(p.getQuantity(), productRepository.findById(p.getProductId()).get()));
-        }).collect(Collectors.toList());
-        if(!ok.get())
-            throw new OrderCannotBeCompletedException();
+        });
+
 
         Map<Location, Long> counts = allLocations.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
         counts.entrySet().stream().filter(e -> e.getValue().equals(orderInputObject.getProducts().size()))
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElse(null);
-        if (counts.isEmpty())
+        if (counts.size() != 1)
             throw new OrderCannotBeCompletedException();
         Map.Entry<Location, Long> entry = counts.entrySet().iterator().next();
         if (entry.getKey() != null) {

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ro.msg.learning.shop.model.StrategyEnum;
 import ro.msg.learning.shop.repository.*;
+import ro.msg.learning.shop.service.strategy.GreedyStrategy;
 import ro.msg.learning.shop.service.strategy.MostAbundantStrategy;
 import ro.msg.learning.shop.service.strategy.SingleLocationStrategy;
 import ro.msg.learning.shop.service.strategy.Strategy;
@@ -32,6 +33,8 @@ public class StrategyConfiguration {
                 return new MostAbundantStrategy(productRepository,locationRepository,customerRepository,stockRepository,orderRepository);
             case SINGLELOCATION:
                 return new SingleLocationStrategy(productRepository,locationRepository,customerRepository,stockRepository,orderRepository);
+            case GREEDY:
+                return new GreedyStrategy(productRepository,locationRepository,customerRepository,stockRepository,orderRepository);
         }
         return null;
     }
